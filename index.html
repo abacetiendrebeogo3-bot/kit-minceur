@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cure 28 Jours - Kit Minceur 2 en 1 Premium</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS v3.4.15 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mousse: '#14532D', // Rich dark forest green
+                        argile: '#22C55E', // Vibrant fresh green
+                        creme: '#F8FAFC',  // Crisp clean slate/white background
+                        charbon: '#0F172A' // Dark slate text/headings
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace']
+                    },
+                    borderRadius: {
+                        '4xl': '2.5rem',
+                        '5xl': '3.5rem',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- GSAP & ScrollTrigger CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* Global Noise Overlay using CSS SVG filter */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            content: "";
+            opacity: 0.04;
+            z-index: 9999;
+            pointer-events: none;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Magnetic button dynamic styling */
+        .btn-magnetic {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .btn-magnetic:hover {
+            transform: scale(1.03);
+        }
+        .btn-magnetic:active {
+            transform: scale(0.98);
+        }
+
+        /* Slide-up pill span background effect for buttons */
+        .btn-magnetic span.btn-fill {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .btn-magnetic:hover span.btn-fill {
+            transform: translateY(0);
+        }
+
+        /* Smooth cards transitions */
+        .interactive-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .interactive-card:hover {
+            transform: scale(1.01) translateY(-2px);
+            border-color: rgba(26, 26, 26, 0.2);
+        }
+
+        /* Hide Scrollbar for pure look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F0E9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2E4036;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CC5833;
+        }
+    </style>
+</head>
+<body class="bg-creme text-charbon font-sans overflow-x-hidden relative">
+
+    <!-- A. NAVBAR — "L'Île Flottante" -->
+    <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl">
+        <nav id="floating-navbar" class="w-full py-4 px-6 md:px-8 rounded-full bg-creme/60 backdrop-blur-xl border border-charbon/5 flex items-center justify-between transition-all duration-300">
+            <a href="#" class="flex items-center gap-2">
+                <span class="font-outfit font-extrabold text-lg tracking-wider text-mousse">28D<span class="text-argile">SLIM</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#obstacles" class="text-sm font-medium hover:text-argile transition-colors duration-200">Obstacles</a>
+                <a href="#benefices" class="text-sm font-medium hover:text-argile transition-colors duration-200">Bénéfices</a>
+                <a href="#composition" class="text-sm font-medium hover:text-argile transition-colors duration-200">Le Kit</a>
+                <a href="#utilisation" class="text-sm font-medium hover:text-argile transition-colors duration-200">Utilisation</a>
+                <a href="#temoignages" class="text-sm font-medium hover:text-argile transition-colors duration-200">Témoignages</a>
+            </div>
+            <div>
+                <a href="https://wa.me/22672019524?text=Bonjour,%20je%20souhaite%20commander%20le%20Kit%20Minceur%202%20en%201" target="_blank" class="btn-magnetic relative inline-flex items-center justify-center px-5 py-2.5 overflow-hidden rounded-full bg-mousse text-creme text-xs font-semibold tracking-wider uppercase transition-transform">
+                    <span class="relative z-10 flex items-center gap-1.5">
+                        <svg class="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.956C16.604 1.93 14.136.916 11.51.916 6.071.916 1.649 5.337 1.646 10.78c-.001 1.708.452 3.376 1.311 4.869l-.956 3.49 3.58-.938.062-.037zm11.233-7.518c-.3-.15-1.771-.875-2.04-.972-.269-.1-.466-.149-.662.15-.196.299-.761.973-.933 1.17-.172.197-.344.223-.644.073-.3-.15-1.267-.467-2.414-1.49-1.025-.915-1.579-2.083-1.73-2.333-.15-.25-.016-.385.134-.534.136-.134.3-.349.45-.524.15-.174.2-.299.3-.499.1-.2.05-.374-.025-.524-.075-.15-.662-1.597-.908-2.195-.24-.579-.48-.5-.662-.51-.171-.008-.368-.01-.565-.01-.197 0-.516.074-.787.374-.27.299-1.03 1.023-1.03 2.493 0 1.47 1.07 2.89 1.22 3.09.15.199 2.107 3.217 5.104 4.512.713.308 1.269.493 1.703.63.716.227 1.368.195 1.883.118.574-.085 1.772-.724 2.02-1.422.247-.698.247-1.297.172-1.422-.075-.125-.27-.199-.57-.349z"/></svg>
+                        Commander
+                    </span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- B. HERO — "Le Plan d'Ouverture" -->
+    <section class="min-h-[85vh] relative flex flex-col justify-center pt-20 pb-16 px-6 md:px-12 w-full max-w-7xl mx-auto overflow-hidden">
+        <!-- Abstract glowing organic shape in background -->
+        <div class="absolute top-1/4 right-0 w-80 md:w-[500px] h-80 md:h-[500px] rounded-full bg-[#E5DFD3] mix-blend-multiply filter blur-3xl opacity-60 -z-10 animate-pulse" style="animation-duration: 8s;"></div>
+        <div class="absolute bottom-10 left-10 w-60 h-60 rounded-full bg-argile/5 filter blur-3xl -z-10"></div>
+
+        <!-- Hero Content (Lower-Third Styled) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+            <div class="lg:col-span-8 space-y-8">
+                <!-- Telemetry Monospace Data Tags -->
+                <div class="flex flex-wrap items-center gap-3 text-xs font-mono tracking-wider text-mousse">
+                    <span class="px-3 py-1 rounded-full bg-mousse/10 border border-mousse/5 font-semibold">[ CURE 28 JOURS ]</span>
+                    <span>|</span>
+                    <span class="px-3 py-1 rounded-full bg-argile/10 text-argile border border-argile/5 font-bold">[ 6.500 FCFA LE KIT ]</span>
+                    <span>|</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> 72 01 95 24</span>
+                </div>
+
+                <!-- Main Massive Typography Header -->
+                <h1 class="text-5xl md:text-8xl font-bold tracking-tight text-charbon leading-[1.05]">
+                    Perds du poids <br>en <span class="font-serif italic text-argile">28 jours</span>.
+                </h1>
+
+                <p class="text-lg md:text-xl text-charbon/80 max-w-2xl font-light leading-relaxed">
+                    Un kit minceur 2-en-1 combinant notre thé détoxifiant <span class="font-semibold text-mousse">FIT TEA</span> et nos comprimés brûle-graisses <span class="font-semibold text-mousse">Slim Fit</span> pour cibler la perte de graisse et affiner le ventre naturellement.
+                </p>
+
+                <!-- Action CTA row -->
+                <div class="flex flex-wrap items-center gap-4 pt-4">
+                    <a href="https://wa.me/22672019524?text=Bonjour,%20je%20souhaite%20commander%20le%20Kit%20Minceur%202%20en%201" target="_blank" class="btn-magnetic relative inline-flex items-center gap-2 px-8 py-4 overflow-hidden rounded-full bg-argile text-creme text-sm font-semibold tracking-wider uppercase shadow-xl shadow-argile/25">
+                        <span class="relative z-10 flex items-center gap-2">
+                            Commander sur WhatsApp
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.956C16.604 1.93 14.136.916 11.51.916 6.071.916 1.649 5.337 1.646 10.78c-.001 1.708.452 3.376 1.311 4.869l-.956 3.49 3.58-.938.062-.037zm11.233-7.518c-.3-.15-1.771-.875-2.04-.972-.269-.1-.466-.149-.662.15-.196.299-.761.973-.933 1.17-.172.197-.344.223-.644.073-.3-.15-1.267-.467-2.414-1.49-1.025-.915-1.579-2.083-1.73-2.333-.15-.25-.016-.385.134-.534.136-.134.3-.349.45-.524.15-.174.2-.299.3-.499.1-.2.05-.374-.025-.524-.075-.15-.662-1.597-.908-2.195-.24-.579-.48-.5-.662-.51-.171-.008-.368-.01-.565-.01-.197 0-.516.074-.787.374-.27.299-1.03 1.023-1.03 2.493 0 1.47 1.07 2.89 1.22 3.09.15.199 2.107 3.217 5.104 4.512.713.308 1.269.493 1.703.63.716.227 1.368.195 1.883.118.574-.085 1.772-.724 2.02-1.422.247-.698.247-1.297.172-1.422-.075-.125-.27-.199-.57-.349z"/></svg>
+                        </span>
+                    </a>
+                    <a href="tel:72019524" class="btn-magnetic inline-flex items-center gap-2 px-6 py-4 rounded-full border border-charbon/10 text-charbon hover:border-charbon/30 text-sm font-semibold tracking-wider uppercase transition-colors">
+                        Appeler le 72 01 95 24
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product Banners Grid (Incorporating User's High-Quality Promo Images) -->
+            <div class="lg:col-span-4 flex flex-col items-center gap-6">
+                <!-- Main Promo Banner Frame -->
+                <div class="relative w-full max-w-sm rounded-4xl overflow-hidden shadow-2xl border border-charbon/10 interactive-card bg-white">
+                    <img src="assets/promo_28jours.jpg" alt="Kit Minceur 28 jours" class="w-full h-auto object-cover">
+                    <div class="p-6 bg-mousse text-creme flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-mono tracking-widest text-creme/60 uppercase block">Cure Complète</span>
+                            <span class="font-outfit font-bold text-lg">FIT TEA + SLIM TABLET</span>
+                        </div>
+                        <span class="font-mono font-bold text-argile text-lg">6.500F</span>
+                    </div>
+                </div>
+
+                <!-- Secondary Gallery/Trust Badge (Recommended for women and men) -->
+                <div class="w-full max-w-sm rounded-3xl overflow-hidden shadow-lg border border-charbon/5 bg-white p-4 flex items-center gap-4">
+                    <img src="assets/recommande_hommes_femmes.jpg" alt="Recommandé pour hommes et femmes" class="w-16 h-16 rounded-full object-cover border-2 border-argile">
+                    <div>
+                        <span class="font-mono text-[9px] text-argile font-bold tracking-wider block uppercase">[ Efficacité Mixte ]</span>
+                        <h4 class="font-bold text-sm text-charbon font-outfit">Recommandé Hommes & Femmes</h4>
+                        <p class="text-[11px] text-charbon/60">Formule universelle pour cibler la zone abdominale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3 Monospace stats at bottom -->
+        <div class="border-t border-charbon/10 mt-16 pt-8 grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs text-mousse">
+            <div class="flex items-center gap-3">
+                <span class="text-argile font-bold text-base">[01]</span>
+                <span>CURE DE 28 JOURS COMPLÈTE (100% NATUREL)</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-argile font-bold text-base">[02]</span>
+                <span>SANS EFFET SECONDAIRE - RÉSULTATS VISIBLES</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-argile font-bold text-base">[03]</span>
+                <span>SUPPORT WHATSAPP DIRECT AU 72 01 95 24</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- C. OBSTACLES SECTION — "Les Obstacles en Afrique de l'Ouest" -->
+    <section id="obstacles" class="py-24 md:py-32 bg-creme relative border-t border-charbon/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="max-w-3xl mb-16">
+                <span class="font-mono text-xs text-argile tracking-widest uppercase block mb-4">[ Les Obstacles Majeurs ]</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-charbon">
+                    Pourquoi est-il si difficile de <span class="font-serif italic text-mousse font-normal">perdre du ventre</span> durablement ?
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Obstacle 1 -->
+                <div class="p-8 rounded-[2rem] bg-[#E9E6DC]/40 border border-charbon/5 interactive-card flex flex-col justify-between min-h-[250px]">
+                    <div class="space-y-4">
+                        <span class="font-mono text-xs text-mousse opacity-60">PROBLÈME 01</span>
+                        <h4 class="text-xl font-bold text-charbon">Régimes stricts intenables</h4>
+                        <p class="text-sm text-charbon/80 leading-relaxed font-light">
+                            Les privations excessives provoquent une baisse d'énergie rapide, menant à l'abandon avant que les graisses profondes du ventre ne soient ciblées.
+                        </p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-mousse/5 flex items-center justify-center text-mousse text-xs font-mono font-bold mt-6">✓</div>
+                </div>
+
+                <!-- Obstacle 2 -->
+                <div class="p-8 rounded-[2rem] bg-[#E9E6DC]/40 border border-charbon/5 interactive-card flex flex-col justify-between min-h-[250px]">
+                    <div class="space-y-4">
+                        <span class="font-mono text-xs text-mousse opacity-60">PROBLÈME 02</span>
+                        <h4 class="text-xl font-bold text-charbon">Ballonnements & fatigue</h4>
+                        <p class="text-sm text-charbon/80 leading-relaxed font-light">
+                            Une mauvaise digestion crée des ballonnements permanents. Sans vitalité, le corps ralentit son métabolisme et stocke davantage.
+                        </p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-mousse/5 flex items-center justify-center text-mousse text-xs font-mono font-bold mt-6">✓</div>
+                </div>
+
+                <!-- Obstacle 3 -->
+                <div class="p-8 rounded-[2rem] bg-[#E9E6DC]/40 border border-charbon/5 interactive-card flex flex-col justify-between min-h-[250px]">
+                    <div class="space-y-4">
+                        <span class="font-mono text-xs text-mousse opacity-60">PROBLÈME 03</span>
+                        <h4 class="text-xl font-bold text-charbon">Actions mono-produits</h4>
+                        <p class="text-sm text-charbon/80 leading-relaxed font-light">
+                            Prendre uniquement du thé ou de simples pilules ne suffit pas. Une action complète exige à la fois une détoxification interne ET un brûleur de graisse.
+                        </p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-mousse/5 flex items-center justify-center text-mousse text-xs font-mono font-bold mt-6">✓</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- D. INTERACTIVE FEATURES — "Les 5 Bénéfices Clés" -->
+    <section id="benefices" class="py-24 bg-creme relative border-t border-charbon/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                <div class="lg:col-span-6">
+                    <span class="font-mono text-xs text-argile tracking-widest uppercase block mb-4">[ Artefacts Fonctionnels ]</span>
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-charbon">
+                        L'action combinée pour <br>un <span class="font-serif italic text-mousse font-normal">corps régénéré</span>
+                    </h2>
+                </div>
+                <div class="lg:col-span-6 lg:pl-8">
+                    <p class="text-charbon/70 font-light leading-relaxed">
+                        Notre kit agit en synergie sur 5 axes biologiques complémentaires pour libérer votre corps des toxines et accélérer la perte de masse grasse, tout en maintenant un tonus physique constant.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Custom Interactive Visuals Dashboard -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left Column: Diagnostic Mixer Micro-UI -->
+                <div class="lg:col-span-7 p-8 rounded-[3rem] bg-[#E9E6DC]/30 border border-charbon/5 flex flex-col justify-between min-h-[450px]">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="font-mono text-xs text-mousse tracking-widest font-bold">[ CARTE 1: MÉLANGEUR DE FLUX ]</span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-argile animate-ping"></span>
+                                <span class="text-[10px] font-mono uppercase text-charbon/60">Temps Réel</span>
+                            </div>
+                        </div>
+
+                        <!-- Cycling Cards Wrapper -->
+                        <div class="relative h-48 overflow-hidden w-full flex items-center justify-center">
+                            <div id="mixer-cards-container" class="relative w-full h-full flex flex-col items-center justify-center">
+                                <!-- Cards will cycle with javascript -->
+                                <div class="mixer-card absolute w-[90%] md:w-[80%] bg-mousse text-creme p-6 rounded-[2rem] shadow-xl transition-all duration-500 transform border border-creme/10" data-idx="0">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs font-mono text-argile font-bold">[ ÉNERGIE + ]</span>
+                                        <span class="text-2xl">⚡</span>
+                                    </div>
+                                    <p class="font-bold text-lg font-outfit">Boost Énergie quotidien</p>
+                                    <p class="text-xs text-creme/75 mt-1 font-light">Maintient votre vitalité active sans coup de pompe pendant la cure.</p>
+                                </div>
+                                <div class="mixer-card absolute w-[90%] md:w-[80%] bg-[#DFDAD0] text-charbon p-6 rounded-[2rem] shadow-lg transition-all duration-500 transform border border-charbon/5" data-idx="1">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs font-mono text-mousse font-bold">[ THERMOGÉNÈSE ]</span>
+                                        <span class="text-2xl">🔥</span>
+                                    </div>
+                                    <p class="font-bold text-lg font-outfit">Combustion Brûle-Graisse</p>
+                                    <p class="text-xs text-charbon/75 mt-1 font-light">Accélère l'oxydation des tissus adipeux profonds de la zone abdominale.</p>
+                                </div>
+                                <div class="mixer-card absolute w-[90%] md:w-[80%] bg-[#DDD9CE] text-charbon p-6 rounded-[2rem] shadow-lg transition-all duration-500 transform border border-charbon/5" data-idx="2">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-xs font-mono text-mousse font-bold">[ DIGESTION ]</span>
+                                        <span class="text-2xl">🌱</span>
+                                    </div>
+                                    <p class="font-bold text-lg font-outfit">Anti-Ballonnement immédiat</p>
+                                    <p class="text-xs text-charbon/75 mt-1 font-light">Favorise un ventre plat en allégeant le système digestif dès le matin.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-charbon/10 pt-4 flex justify-between items-center text-xs font-mono text-charbon/60">
+                        <span>Système synergique active</span>
+                        <div class="flex gap-2">
+                            <button id="prev-mixer" class="w-8 h-8 rounded-full border border-charbon/15 flex items-center justify-center hover:bg-mousse hover:text-creme transition-colors">&larr;</button>
+                            <button id="next-mixer" class="w-8 h-8 rounded-full border border-charbon/15 flex items-center justify-center hover:bg-mousse hover:text-creme transition-colors">&rarr;</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Weighted Badges Grid -->
+                <div class="lg:col-span-5 p-8 rounded-[3rem] bg-mousse text-creme flex flex-col justify-between min-h-[450px] relative overflow-hidden">
+                    <div class="absolute -bottom-16 -right-16 w-48 h-48 rounded-full bg-argile/20 filter blur-3xl"></div>
+                    
+                    <div>
+                        <span class="font-mono text-xs text-argile tracking-widest block mb-6">[ CARTE 2: VECTEURS BIOLOGIQUES ]</span>
+                        <h4 class="text-2xl font-bold font-outfit tracking-tight mb-8">Les 5 bénéfices interconnectés</h4>
+
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-5 py-3 rounded-full bg-creme text-mousse text-sm font-semibold shadow-md hover:scale-105 transition-transform duration-200 cursor-default">⚡ Boost Énergie</span>
+                            <span class="px-5 py-3 rounded-full bg-argile text-creme text-sm font-semibold shadow-md hover:scale-105 transition-transform duration-200 cursor-default">🔥 Brûle Graisse</span>
+                            <span class="px-5 py-3 rounded-full bg-creme/10 border border-creme/25 text-creme text-sm font-semibold hover:scale-105 transition-transform duration-200 cursor-default">💨 Zéro Ballonnement</span>
+                            <span class="px-5 py-3 rounded-full bg-creme text-mousse text-sm font-semibold shadow-md hover:scale-105 transition-transform duration-200 cursor-default">🍃 Détox Profonde</span>
+                            <span class="px-5 py-3 rounded-full bg-creme/10 border border-creme/25 text-creme text-sm font-semibold hover:scale-105 transition-transform duration-200 cursor-default">⚙️ Soutien Métabolisme</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-creme/10 pt-6 mt-8">
+                        <div class="flex items-center justify-between text-xs font-mono text-creme/60">
+                            <span>Ingrédients 100% Bio Certifiés</span>
+                            <span>Standard GMP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: TÉMOIGNAGES CLIENTS (WHATSAPP CAPTURES) -->
+    <section id="temoignages" class="py-24 bg-creme relative border-t border-charbon/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="font-mono text-xs text-argile tracking-widest uppercase block mb-4">[ Retours d'Expérience ]</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-charbon">
+                    Ce que disent nos <span class="font-serif italic text-mousse font-normal">clients</span>
+                </h2>
+                <p class="text-charbon/75 text-sm mt-3 font-light">
+                    Retours réels, captures de conversations et témoignages reçus directement sur WhatsApp de la part de nos clients satisfaits.
+                </p>
+            </div>
+
+            <!-- WhatsApp Screenshots Masonry Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Témoignage 1 -->
+                <div class="rounded-3xl overflow-hidden shadow-lg border border-charbon/5 bg-[#E9E6DC]/30 p-4 interactive-card flex flex-col justify-between">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm">C1</div>
+                        <div>
+                            <span class="font-bold text-xs text-charbon font-outfit block">Client WhatsApp</span>
+                            <span class="text-[10px] font-mono text-charbon/50">Burkina Faso</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center bg-white p-2 rounded-2xl border border-charbon/5 mb-4">
+                        <div class="text-center">
+                            <p class="font-serif italic text-sm text-mousse">"J'ai vu les résultats, mon ventre a un peu diminué... Je voudrais le duo détox."</p>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[9px] text-argile font-bold tracking-wider uppercase block text-right">[ Validé par WhatsApp ]</span>
+                </div>
+
+                <!-- Témoignage 2 -->
+                <div class="rounded-3xl overflow-hidden shadow-lg border border-charbon/5 bg-[#E9E6DC]/30 p-4 interactive-card flex flex-col justify-between">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm">C2</div>
+                        <div>
+                            <span class="font-bold text-xs text-charbon font-outfit block">Client WhatsApp</span>
+                            <span class="text-[10px] font-mono text-charbon/50">Service à la ZAD</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center bg-white p-2 rounded-2xl border border-charbon/5 mb-4">
+                        <div class="text-center">
+                            <p class="font-serif italic text-sm text-mousse">"Le produit est un peu efficace merci. En tout cas ça a considérablement diminué les gaz dans mon ventre."</p>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[9px] text-argile font-bold tracking-wider uppercase block text-right">[ Livré à la ZAD ]</span>
+                </div>
+
+                <!-- Témoignage 3 -->
+                <div class="rounded-3xl overflow-hidden shadow-lg border border-charbon/5 bg-[#E9E6DC]/30 p-4 interactive-card flex flex-col justify-between">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm">C3</div>
+                        <div>
+                            <span class="font-bold text-xs text-charbon font-outfit block">Client WhatsApp</span>
+                            <span class="text-[10px] font-mono text-charbon/50">Perte de poids massive</span>
+                        </div>
+                    </div>
+                    <div class="flex-grow flex items-center justify-center bg-white p-2 rounded-2xl border border-charbon/5 mb-4">
+                        <div class="text-center">
+                            <p class="font-serif italic text-sm text-mousse">"J'ai déjà utilisé j'ai payé le complet à 10 mille j'étais à 106kg je suis venu à 84kg."</p>
+                        </div>
+                    </div>
+                    <span class="font-mono text-[9px] text-argile font-bold tracking-wider uppercase block text-right">[ Perte de 22kg ]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- E. COMPOSITION DETAIL — "Les 2 Produits du Kit" -->
+    <section id="composition" class="py-24 md:py-32 bg-[#E9E6DC]/40 relative border-t border-charbon/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <span class="font-mono text-xs text-argile tracking-widest uppercase block mb-4">[ Composition Exclusive ]</span>
+                <h2 class="text-4xl font-bold tracking-tight text-charbon font-outfit">
+                    Un kit unique, <span class="font-serif italic text-mousse font-normal">deux actions</span> synergiques
+                </h2>
+                <p class="text-charbon/75 text-sm mt-4 font-light">
+                    Ne choisissez plus entre drainer et brûler. Notre kit réunit les deux galéniques les plus efficaces pour des résultats optimaux en 28 jours.
+                </p>
+            </div>
+
+            <!-- Product Showcase Image Highlight -->
+            <div class="max-w-xl mx-auto mb-16 rounded-[2.5rem] overflow-hidden shadow-xl border border-charbon/10 bg-white p-4 interactive-card">
+                <img src="assets/real_kit.jpg" alt="Kit Minceur Réel - FIT TEA & SLIM TABLET" class="w-full h-auto object-cover rounded-2xl">
+                <div class="p-4 text-center">
+                    <span class="font-mono text-[10px] text-argile font-bold tracking-wider block uppercase">[ Produit Physique Réel ]</span>
+                    <h4 class="font-bold text-sm text-charbon font-outfit mt-1">Vos deux alliés minceur au Burkina</h4>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Product 1: FIT TEA -->
+                <div class="p-8 md:p-12 rounded-[3rem] bg-creme border border-charbon/5 flex flex-col justify-between shadow-sm relative overflow-hidden interactive-card">
+                    <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-mousse/5 filter blur-xl"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="px-3 py-1 rounded-full bg-mousse/10 text-mousse text-xs font-mono">[ PRODUIT 01 ]</span>
+                            <span class="font-mono text-xs text-charbon/60">Format : 28 Sachets</span>
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold font-outfit text-charbon mb-4">FIT TEA <br><span class="font-serif italic text-argile text-2xl font-normal">28 Day Slimming Tea</span></h3>
+                        
+                        <p class="text-charbon/80 text-sm leading-relaxed mb-6 font-light">
+                            Un thé minceur premium aux plantes formulé pour nettoyer l'organisme, éliminer les toxines accumulées et réduire instantanément le gonflement du ventre. Idéal pour débuter la journée avec légèreté.
+                        </p>
+
+                        <ul class="space-y-3 font-mono text-xs text-mousse border-t border-charbon/10 pt-6">
+                            <li class="flex items-center gap-2">✓ 1 sachet par jour au réveil</li>
+                            <li class="flex items-center gap-2">✓ Action drainante et détoxifiante</li>
+                            <li class="flex items-center gap-2">✓ Élimine l'excès d'eau et les ballonnements</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Product 2: Slim Fit Tablets -->
+                <div class="p-8 md:p-12 rounded-[3rem] bg-creme border border-charbon/5 flex flex-col justify-between shadow-sm relative overflow-hidden interactive-card">
+                    <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-argile/5 filter blur-xl"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <span class="px-3 py-1 rounded-full bg-argile/10 text-argile text-xs font-mono">[ PRODUIT 02 ]</span>
+                            <span class="font-mono text-xs text-charbon/60">Format : 100 Comprimés (400mg)</span>
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold font-outfit text-charbon mb-4">Dr. Jian Gang <br><span class="font-serif italic text-mousse text-2xl font-normal">28 Day Slim Fit Tablets</span></h3>
+                        
+                        <p class="text-charbon/80 text-sm leading-relaxed mb-6 font-light">
+                            Des gélules concentrées ultra-actives conçues pour stimuler la thermogénèse, accélérer la fonte des graisses installées et réguler le stockage des nouveaux repas. Convient aux hommes et aux femmes.
+                        </p>
+
+                        <ul class="space-y-3 font-mono text-xs text-mousse border-t border-charbon/10 pt-6">
+                            <li class="flex items-center gap-2">✓ Formule concentrée naturelle de 400mg</li>
+                            <li class="flex items-center gap-2">✓ Active la combustion des graisses profondes</li>
+                            <li class="flex items-center gap-2">✓ Soutien métabolique continu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- F. PHILOSOPHIE — "Le Manifeste" -->
+    <section class="py-28 bg-mousse text-creme relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(204,88,51,0.1)_0%,transparent_70%)] pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto px-6 text-center space-y-8 relative z-10">
+            <span class="font-mono text-xs text-argile tracking-widest uppercase block">[ Notre Philosophie ]</span>
+            <p class="text-creme/65 text-sm md:text-base font-mono uppercase tracking-wider max-w-xl mx-auto leading-relaxed">
+                La plupart des programmes imposent des efforts intenables pour des résultats éphémères.
+            </p>
+            <h3 class="text-3xl md:text-6xl font-bold tracking-tight leading-[1.1] max-w-4xl mx-auto">
+                Nous croyons en une <span class="font-serif italic text-argile font-normal">synergie naturelle</span> et douce qui rééduque votre métabolisme sans frustration.
+            </h3>
+            <div class="w-12 h-[1px] bg-argile mx-auto"></div>
+        </div>
+    </section>
+
+    <!-- G. PROTOCOLE & MODE D'EMPLOI — "Le Guide d'Usage" -->
+    <section id="utilisation" class="py-24 bg-creme relative border-t border-charbon/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-20">
+                <span class="font-mono text-xs text-argile tracking-widest uppercase block mb-4">[ Protocole Quotidien ]</span>
+                <h2 class="text-4xl font-bold tracking-tight text-charbon font-outfit">
+                    📋 Mode d'emploi
+                </h2>
+                <p class="text-charbon/75 text-sm mt-4 font-light">
+                    Suivez ce rituel simple chaque jour pour maximiser vos résultats de perte de poids.
+                </p>
+            </div>
+
+            <!-- Custom Designed Guide Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1: Thé Detox -->
+                <div class="p-8 rounded-[2.5rem] bg-[#E9E6DC]/40 border border-charbon/5 flex flex-col justify-between interactive-card min-h-[300px]">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs text-argile font-bold">[ ÉTAPE 01 ]</span>
+                            <span class="text-3xl">☕</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-charbon font-outfit">Le Thé</h4>
+                        <p class="text-sm text-charbon/80 leading-relaxed font-light">
+                            Thé dans eau chaude, <strong>5 min</strong> d'infusion.
+                        </p>
+                        <div class="p-3 bg-mousse/5 rounded-2xl border border-mousse/5 text-xs text-mousse font-medium">
+                            ➕ ajoutez du citron/miel = votre pause detox du jour 🍵
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Gélules -->
+                <div class="p-8 rounded-[2.5rem] bg-[#E9E6DC]/40 border border-charbon/5 flex flex-col justify-between interactive-card min-h-[300px]">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs text-argile font-bold">[ ÉTAPE 02 ]</span>
+                            <span class="text-3xl">💊</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-charbon font-outfit">Les Gélules</h4>
+                        <p class="text-sm text-charbon/80 leading-relaxed font-light">
+                            Prenez <strong>1 gélule le matin</strong> et <strong>1 gélule le soir</strong>, de préférence après avoir consommé le thé.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3: Astuce Pro -->
+                <div class="p-8 rounded-[2.5rem] bg-mousse text-creme flex flex-col justify-between interactive-card min-h-[300px] relative overflow-hidden">
+                    <div class="absolute -bottom-12 -right-12 w-32 h-32 rounded-full bg-argile/10 filter blur-xl"></div>
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs text-argile font-bold">[ ASTUCE CLÉ ]</span>
+                            <span class="text-3xl">💡</span>
+                        </div>
+                        <h4 class="text-xl font-bold font-outfit">Résultats Rapides</h4>
+                        <p class="text-sm text-creme/80 leading-relaxed font-light">
+                            Pour brûler les graisses abdominales encore plus rapidement :
+                        </p>
+                        <div class="p-4 bg-creme/10 rounded-2xl border border-creme/10 text-xs text-argile font-bold">
+                            🔥 Évitez le gras en journée !
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXTRA GALLERY: LES RÉSULTATS ET ROUTINES VISUELLES -->
+    <section class="py-24 bg-[#E9E6DC]/20 border-t border-charbon/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="font-mono text-xs text-argile tracking-widest uppercase block mb-4">[ Galerie d'Efficacité ]</span>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-charbon">
+                    Votre routine en <span class="font-serif italic text-mousse font-normal">images</span>
+                </h2>
+                <p class="text-charbon/75 text-sm mt-3 font-light">
+                    Découvrez l'harmonie et l'action concrète de la cure double FIT TEA + Slim Fit sur le corps.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Image 1: Prête pour ta fête -->
+                <div class="rounded-4xl overflow-hidden shadow-lg border border-charbon/5 bg-white interactive-card">
+                    <img src="assets/prete_fete.jpg" alt="Prête pour ta fête en 28 jours" class="w-full h-auto object-cover">
+                    <div class="p-6 bg-white">
+                        <span class="font-mono text-[10px] text-argile font-bold block mb-2">[ OBJECTIF SILHOUETTE ]</span>
+                        <h4 class="font-bold text-lg text-charbon font-outfit">Silhouette Affinée</h4>
+                        <p class="text-xs text-charbon/70 mt-1 leading-relaxed">Soyez prête pour vos plus beaux événements en retrouvant un confort abdominal en 28 jours.</p>
+                    </div>
+                </div>
+
+                <!-- Image 2: Routine détox -->
+                <div class="rounded-4xl overflow-hidden shadow-lg border border-charbon/5 bg-white interactive-card">
+                    <img src="assets/routine_28jours.jpg" alt="Routine détox Fit Tea" class="w-full h-auto object-cover">
+                    <div class="p-6 bg-white">
+                        <span class="font-mono text-[10px] text-argile font-bold block mb-2">[ INFUSION DU MATIN ]</span>
+                        <h4 class="font-bold text-lg text-charbon font-outfit">Action Digestive Légère</h4>
+                        <p class="text-xs text-charbon/70 mt-1 leading-relaxed">Une routine matinale saine qui réveille le métabolisme, combat la fatigue et libère les ballonnements.</p>
+                    </div>
+                </div>
+
+                <!-- Image 3: Avant Après Femme -->
+                <div class="rounded-4xl overflow-hidden shadow-lg border border-charbon/5 bg-white interactive-card">
+                    <img src="assets/avant_apres_femme.jpg" alt="Avant Après Minceur" class="w-full h-auto object-cover">
+                    <div class="p-6 bg-white">
+                        <span class="font-mono text-[10px] text-argile font-bold block mb-2">[ TRANSFORMATION ]</span>
+                        <h4 class="font-bold text-lg text-charbon font-outfit">Résultats Visibles</h4>
+                        <p class="text-xs text-charbon/70 mt-1 leading-relaxed">Observez la fonte des graisses profondes et retrouvez un ventre plat grâce à l'élimination synergique.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- H. PRICING / ORDER CTA — "L'Engagement" -->
+    <section class="py-24 md:py-32 bg-creme relative border-t border-charbon/5">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="p-8 md:p-16 rounded-[3.5rem] bg-mousse text-creme border border-creme/10 text-center space-y-8 relative overflow-hidden shadow-2xl">
+                <!-- Glow backdrops -->
+                <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-argile/20 filter blur-3xl"></div>
+                <div class="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-argile/10 filter blur-3xl"></div>
+
+                <span class="font-mono text-xs text-argile tracking-widest uppercase block relative z-10">[ Offre de Lancement Unique ]</span>
+                
+                <h2 class="text-4xl md:text-6xl font-bold font-outfit relative z-10">Commence ta cure aujourd'hui</h2>
+                
+                <div class="py-4 relative z-10">
+                    <p class="text-xs font-mono text-creme/65 uppercase tracking-wider">Tarif unique du kit complet (FIT TEA + Slim Fit)</p>
+                    <p class="text-5xl md:text-7xl font-mono font-bold text-argile mt-2">6.500 FCFA</p>
+                    <p class="text-xs font-mono text-creme/50 mt-1">Paiement à la livraison ou Mobile Money</p>
+                </div>
+
+                <p class="text-sm md:text-base text-creme/80 max-w-lg mx-auto font-light leading-relaxed relative z-10">
+                    Commandez maintenant et recevez votre kit rapidement. Stock limité pour ce lot promotionnel.
+                </p>
+
+                <!-- Actions Grid -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 relative z-10 w-full max-w-md mx-auto">
+                    <a href="https://wa.me/22672019524?text=Bonjour,%20je%20souhaite%20commander%20le%20Kit%20Minceur%202%20en%201" target="_blank" class="w-full btn-magnetic relative inline-flex items-center justify-center gap-2 px-8 py-4 overflow-hidden rounded-full bg-argile text-creme text-sm font-semibold tracking-wider uppercase shadow-lg shadow-argile/25">
+                        <svg class="w-4.5 h-4.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.864.001-2.63-1.019-5.101-2.875-6.956C16.604 1.93 14.136.916 11.51.916 6.071.916 1.649 5.337 1.646 10.78c-.001 1.708.452 3.376 1.311 4.869l-.956 3.49 3.58-.938.062-.037zm11.233-7.518c-.3-.15-1.771-.875-2.04-.972-.269-.1-.466-.149-.662.15-.196.299-.761.973-.933 1.17-.172.197-.344.223-.644.073-.3-.15-1.267-.467-2.414-1.49-1.025-.915-1.579-2.083-1.73-2.333-.15-.25-.016-.385.134-.534.136-.134.3-.349.45-.524.15-.174.2-.299.3-.499.1-.2.05-.374-.025-.524-.075-.15-.662-1.597-.908-2.195-.24-.579-.48-.5-.662-.51-.171-.008-.368-.01-.565-.01-.197 0-.516.074-.787.374-.27.299-1.03 1.023-1.03 2.493 0 1.47 1.07 2.89 1.22 3.09.15.199 2.107 3.217 5.104 4.512.713.308 1.269.493 1.703.63.716.227 1.368.195 1.883.118.574-.085 1.772-.724 2.02-1.422.247-.698.247-1.297.172-1.422-.075-.125-.27-.199-.57-.349z"/></svg>
+                        Acheter via WhatsApp
+                    </a>
+                    <a href="tel:72019524" class="w-full btn-magnetic inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-creme/20 text-creme hover:border-creme/55 text-sm font-semibold tracking-wider uppercase transition-colors">
+                        Appeler le 72 01 95 24
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- I. PIED DE PAGE — FOOTER -->
+    <footer class="bg-charbon text-creme pt-20 pb-8 px-6 md:px-12 rounded-t-[4rem] relative z-10 border-t border-creme/5">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-creme/10">
+            <!-- Brand Column -->
+            <div class="md:col-span-6 space-y-6">
+                <span class="font-outfit font-extrabold text-2xl tracking-wider">28D<span class="text-argile">SLIM</span></span>
+                <p class="text-sm text-creme/60 max-w-sm font-light leading-relaxed">
+                    Le secret d'un métabolisme harmonieux. Retrouvez tonus et ventre plat avec notre cure combinée naturelle et hautement performante.
+                </p>
+                <!-- Operational Status Indicator -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-creme/5 border border-creme/10 text-xs font-mono">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>LIVRAISONS EN COURS DANS TOUTE LA ZONE</span>
+                </div>
+            </div>
+
+            <!-- Quick Links Column -->
+            <div class="md:col-span-3 space-y-4">
+                <h5 class="font-mono text-xs text-argile uppercase tracking-widest">[ Navigation ]</h5>
+                <ul class="space-y-2 text-sm text-creme/75">
+                    <li><a href="#obstacles" class="hover:text-argile transition-colors">Les Obstacles</a></li>
+                    <li><a href="#benefices" class="hover:text-argile transition-colors">Les Bénéfices</a></li>
+                    <li><a href="#composition" class="hover:text-argile transition-colors">Le Kit 2-en-1</a></li>
+                    <li><a href="#utilisation" class="hover:text-argile transition-colors">Protocole</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal and Order Column -->
+            <div class="md:col-span-3 space-y-4">
+                <h5 class="font-mono text-xs text-argile uppercase tracking-widest">[ Contact direct ]</h5>
+                <ul class="space-y-2 text-sm text-creme/75 font-mono">
+                    <li>WhatsApp : +226 72 01 95 24</li>
+                    <li>Appels : 72 01 95 24</li>
+                    <li class="pt-2 text-xs text-creme/50">Cotonou - Lomé - Abidjan - Ouagadougou</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-creme/45 font-mono">
+            <p>&copy; 2026 28DSlim. Tous droits réservés.</p>
+            <p class="mt-2 sm:mt-0">Fait avec le <span class="text-argile">♥</span> vibe coding</p>
+        </div>
+    </footer>
+
+    <!-- GSAP Scroller and Mixer interactive Script logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Register GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Navbar shrink on scroll
+            window.addEventListener('scroll', () => {
+                const navbar = document.getElementById('floating-navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.remove('py-4', 'bg-creme/60');
+                    navbar.classList.add('py-2.5', 'bg-creme/90', 'shadow-md', 'border-charbon/10');
+                } else {
+                    navbar.classList.add('py-4', 'bg-creme/60');
+                    navbar.classList.remove('py-2.5', 'bg-creme/90', 'shadow-md', 'border-charbon/10');
+                }
+            });
+
+            // GSAP Entry Animations
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+            
+            tl.from('header', { y: -50, opacity: 0, duration: 1 })
+              .from('h1', { y: 60, opacity: 0, duration: 1.2 }, '-=0.8')
+              .from('p', { y: 30, opacity: 0, duration: 1 }, '-=0.9')
+              .from('.btn-magnetic', { y: 20, opacity: 0, duration: 0.8, stagger: 0.15 }, '-=0.8')
+              .from('.interactive-card', { scale: 0.95, opacity: 0, duration: 1 }, '-=0.7');
+
+            // Scroll animations for sections
+            gsap.from('#obstacles .interactive-card', {
+                scrollTrigger: {
+                    trigger: '#obstacles',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            gsap.from('#composition .interactive-card', {
+                scrollTrigger: {
+                    trigger: '#composition',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                stagger: 0.2,
+                ease: 'power3.out'
+            });
+
+            // Diagnostic Mixer Logic
+            const mixerCards = Array.from(document.querySelectorAll('.mixer-card'));
+            let currentMixerIndex = 0;
+
+            function updateMixer() {
+                mixerCards.forEach((card, index) => {
+                    // Reset classes
+                    card.style.zIndex = '1';
+                    card.style.transform = 'translateY(50px) scale(0.85)';
+                    card.style.opacity = '0';
+
+                    // Compute relative position
+                    if (index === currentMixerIndex) {
+                        card.style.zIndex = '10';
+                        card.style.transform = 'translateY(0) scale(1)';
+                        card.style.opacity = '1';
+                    } else if (index === (currentMixerIndex + 1) % mixerCards.length) {
+                        card.style.zIndex = '5';
+                        card.style.transform = 'translateY(25px) scale(0.92)';
+                        card.style.opacity = '0.7';
+                    } else if (index === (currentMixerIndex - 1 + mixerCards.length) % mixerCards.length) {
+                        card.style.zIndex = '2';
+                        card.style.transform = 'translateY(-25px) scale(0.92)';
+                        card.style.opacity = '0';
+                    }
+                });
+            }
+
+            document.getElementById('next-mixer').addEventListener('click', () => {
+                currentMixerIndex = (currentMixerIndex + 1) % mixerCards.length;
+                updateMixer();
+            });
+
+            document.getElementById('prev-mixer').addEventListener('click', () => {
+                currentMixerIndex = (currentMixerIndex - 1 + mixerCards.length) % mixerCards.length;
+                updateMixer();
+            });
+
+            // Initialize mixer
+            updateMixer();
+
+            // Auto cycle mixer every 4.5 seconds
+            setInterval(() => {
+                currentMixerIndex = (currentMixerIndex + 1) % mixerCards.length;
+                updateMixer();
+            }, 4500);
+        });
+    </script>
+</body>
+</html>
