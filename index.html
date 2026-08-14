@@ -21,6 +21,7 @@
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '1530587975198974');
     fbq('track', 'PageView');
+    fbq('track', 'Purchase', {value: 6500, currency: 'XOF'});
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1530587975198974&ev=PageView&noscript=1"
@@ -816,6 +817,16 @@
             document.getElementById('prev-mixer').addEventListener('click', () => {
                 currentMixerIndex = (currentMixerIndex - 1 + mixerCards.length) % mixerCards.length;
                 updateMixer();
+            });
+
+            // Track Purchase event on clicking WhatsApp or Call buttons
+            const orderButtons = document.querySelectorAll('a[href*="wa.me"], a[href*="tel:"]');
+            orderButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (typeof fbq !== 'undefined') {
+                        fbq('track', 'Purchase', {value: 6500, currency: 'XOF'});
+                    }
+                });
             });
 
             // Initialize mixer
